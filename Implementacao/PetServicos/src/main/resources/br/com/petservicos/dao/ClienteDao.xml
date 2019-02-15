@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="br.com.petservicos.dao.cliente.ClienteDao">
+ 
+    <resultMap id="cliente" type="Cliente">
+        <id property="id" column="id"/>
+        <result property="nome" column="nome"/>
+        <result property="email" column="email"/>
+        <result property="telefone1" column="telefone1"/>
+        <result property="telefone2" column="telefone2"/>
+    
+    </resultMap>
+    
+    <select id="select" parameterType="Cliente" resultMap="cliente">
+        select * 
+        from petservicos.cliente
+        <where>
+            <if test="id != null and id != 0">
+                 and id = #{id} 
+            </if> 
+            <if test="nome != null and nome!= ''">
+                and upper(nome) like upper('%'||coalesce(#{nome},'')||'%') 
+            </if>  
+            <if test="email != null and email!=''">
+                and upper(email) like upper('%'||coalesce(#{email},'')||'%') 
+            </if> 
+            <if test="telefone1 != null and telefone1!=''">
+                and upper(telefone1) like upper('%'||coalesce(#{telefone1},'')||'%') 
+            </if> 
+            <if test="telefone2 != null and telefone2!=''">
+                and upper(telefone2) like upper('%'||coalesce(#{telefone2},'')||'%') 
+            </if>             
+        </where>
+        order by nome
+    </select>
+    
+     <update  id="update" parameterType="Cliente">
+        update petservicos.cliente
+        set id = #{id},
+            nome = #{nome},
+            email=#{email},
+            telefone1 = #{telefone1},
+            telefone2 = #{telefone2}
+        where id=#{id}     
+    </update>
+    
+    <delete  id="delete" parameterType="Cliente">
+        delete from petservicos.cliente where id=#{id}
+    </delete>
+    
+    <insert  id="insert" parameterType="Cliente">
+       insert 
+        into petservicos.cliente
+            (id,nome,email,telefone1,telefone2)
+      values(#{id}
+             #{nome},
+             #{email},
+             #{telefone1},
+             #{telefone2}
+            )
+    </insert>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+    <!-- context:annotation-config/> -->
+    <context:component-scan base-package="br.com.petservicos"/>
+    <tx:annotation-driven />
+
+    <bean id="datasource_configproject" class="org.springframework.jdbc.datasource.DriverManagerDataSource" primary="true">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://Lina-PC:5432/petservicosteste"/>
+        <property name="username" value="petservicos"/>
+        <property name="password" value="petservicos"/>                
+    </bean>
+
+    <!-- gerenciador de transacao utilizado para acesso a dados e integrado com o spring -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="datasource_configproject"/>
+    </bean>
+
+    <!-- Mapeamentos utilizado para o MyBatis 3.x-->
+    <bean id="sqlSessionFactoryConfigProject" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="datasource_configproject"/>
+        <property name="configLocation" value="classpath:config-project-sqlmap-mybatis.xml"/>
+    </bean>
+
+    <bean id="sqlSessionTemplateConfigProject" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+        <constructor-arg index="0">
+            <ref bean="sqlSessionFactoryConfigProject"/>
+        </constructor-arg>
+    </bean>
+</beans>

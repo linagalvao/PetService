@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="br.com.petservicos.dao.funcionario.FuncionarioDao">
+ 
+    <resultMap id="funcionario" type="Funcionario">
+        <id property="id" column="id"/>
+        <result property="nome" column="nome"/>
+    </resultMap>
+    
+    <select id="select" parameterType="Funcionario" resultMap="funcionario">
+        SELECT * 
+          FROM petservicos.funcionario 
+        <where>
+            <if test="nome != null and nome!= ''">
+                 and upper(nome) like upper('%'||coalesce(#{nome},'')||'%') 
+            </if>   
+            <if test="id != null and id != 0">
+                 and id = #{id} 
+            </if>   
+        </where>
+          order by nome 
+    </select>
+    
+    <update  id="update" parameterType="Funcionario">
+        update petservicos.funcionario
+           set nome = #{nome}
+         where id = #{id}  
+    </update>
+    <delete  id="delete" parameterType="Funcionario">
+        delete 
+          from petservicos.funcionario
+         where id = #{id}  
+    </delete>
+    <insert  id="insert" parameterType="Funcionario">
+        insert into 
+         petservicos.funcionario (nome) 
+        values (#{nome})  
+    </insert>
+    
+ 
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+    PUBLIC "-//www.mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <settings>
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias alias="Funcionario" type="br.com.petservicos.domain.Funcionario" />
+        <typeAlias alias="Servico" type="br.com.petservicos.domain.Servico" />
+        <typeAlias alias="Raca" type="br.com.petservicos.domain.Raca" />
+        <typeAlias alias="Cliente" type="br.com.petservicos.domain.Cliente" />
+        <typeAlias alias="Animal" type="br.com.petservicos.domain.Animal" />
+    </typeAliases>
+
+    <mappers>
+        <mapper resource="br/com/petservicos/dao/FuncionarioDao.xml"/>
+        <mapper resource="br/com/petservicos/dao/ServicoDao.xml"/>
+        <mapper resource="br/com/petservicos/dao/RacaDao.xml"/>
+        <mapper resource="br/com/petservicos/dao/ClienteDao.xml"/>
+        <mapper resource="br/com/petservicos/dao/AnimalDao.xml"/>
+    </mappers>
+
+</configuration>
